@@ -10,6 +10,6 @@ import org.wpilib.opmode.Teleop;
 @Teleop
 public class ExampleTeleop implements OpMode {
   public ExampleTeleop(Robot robot) {
-    robot.exampleController.rightStick().whileTrue(robot.exampleMechanism.exampleCommand());
+    robot.exampleController.leftStick().onTrue(robot.exampleMechanism.exampleCommand());
   }
 }

@@ -4,7 +4,9 @@
 
 package first.robot.mechanisms;
 
+import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
+import org.wpilib.command3.button.CommandGamepad;
 import org.wpilib.drive.MecanumDrive;
 import org.wpilib.hardware.rotation.Encoder;
 import org.wpilib.xrp.XRPMotor;
@@ -70,4 +72,25 @@ public class XrpMecanumDrive implements Mechanism {
         return m_rightFrontEncoder.getDistance();
     }
 
+    // Run the teleop drive command
+    public Command driveCommand(CommandGamepad gamepad) {
+        return run(coroutine -> {
+            System.out.println("Started driveCommand.");
+            while (true) {
+                // Read joysticks
+                double x_speed = gamepad.getLeftY();
+                double y_speed = gamepad.getLeftX();
+                double rotate = gamepad.getRightX();
+
+                System.out.println("Running driveCommand.");
+
+                // Call arcadeDrive
+                arcadeDrive(x_speed, y_speed, rotate);
+
+                // Yield
+                coroutine.yield();
+            }
+        })
+        .named("Mecanum Drive Command");
+    }
 }
