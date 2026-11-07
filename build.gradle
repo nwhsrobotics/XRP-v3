@@ -89,6 +89,10 @@ test {
 wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 
+//Sets the XRP Client Host
+wpi.sim.envVar("HALSIMXRP_HOST", "192.168.42.1")
+wpi.sim.addXRPClient().defaultEnabled = true
+
 application.mainClass = ROBOT_MAIN_CLASS
 
 deployArtifact.configureApplication(application)

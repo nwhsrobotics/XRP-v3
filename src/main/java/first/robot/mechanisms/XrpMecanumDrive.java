@@ -39,7 +39,7 @@ public class XrpMecanumDrive implements Mechanism {
         new MecanumDrive(m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor);
 
     // Constructor
-    public XrpMecanumDrive() {
+    public XrpMecanumDrive(CommandGamepad gamepad) {
         // Use inches as unit for encoder distances
         m_leftFrontEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
         m_rightFrontEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
@@ -49,7 +49,9 @@ public class XrpMecanumDrive implements Mechanism {
 
         // Invert right side since motor is flipped
         m_rightFrontMotor.setInverted(true);
-        m_rightBackMotor.setInverted(true);        
+        m_rightBackMotor.setInverted(true);
+
+        setDefaultCommand(driveCommand(gamepad));
     }
 
     private void resetEncoders() {
@@ -78,11 +80,11 @@ public class XrpMecanumDrive implements Mechanism {
             System.out.println("Started driveCommand.");
             while (true) {
                 // Read joysticks
-                double x_speed = gamepad.getLeftY();
+                double x_speed = -gamepad.getLeftY();
                 double y_speed = gamepad.getLeftX();
                 double rotate = gamepad.getRightX();
 
-                System.out.println("Running driveCommand.");
+                System.out.printf("Running driveCommand: %f, %f, %f\n", x_speed, y_speed, rotate);
 
                 // Call arcadeDrive
                 arcadeDrive(x_speed, y_speed, rotate);
@@ -92,5 +94,9 @@ public class XrpMecanumDrive implements Mechanism {
             }
         })
         .named("Mecanum Drive Command");
+    }
+
+    public void robotPeriodic() {
+        // Do periodic things
     }
 }

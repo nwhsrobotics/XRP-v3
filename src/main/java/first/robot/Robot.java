@@ -13,11 +13,11 @@ import first.robot.mechanisms.ExampleMechanism;
 import first.robot.mechanisms.XrpMecanumDrive;
 
 public class Robot extends OpModeRobot {
-    final XrpMecanumDrive drive = new XrpMecanumDrive();
-
     final ExampleMechanism exampleMechanism = new ExampleMechanism();
     final CommandGamepad exampleController =
         new CommandGamepad(DriverConstants.DRIVER_CONTROLLER_PORT);
+
+    final XrpMecanumDrive drive = new XrpMecanumDrive(exampleController);
 
     final Trigger always_trigger = new Trigger(() -> true);
 
